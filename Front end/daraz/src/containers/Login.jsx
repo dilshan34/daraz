@@ -45,15 +45,19 @@ class Login extends Component {
       loyaltyPoints: 0,
       roleId: 2,
     };
-    addCustomer(value)
-      .then((response) => {
-        this.setState({ empEmail: "", name: "" });
-        alert("User Added Successfully");
-      })
-      .catch((error) => {
-        alert("Try Again");
-        console.log(error);
-      });
+    if (this.state.name.trim() !== "" && this.state.empEmail.trim() !== "") {
+      console.log(this.state.name, "=======");
+      addCustomer(value)
+        .then((response) => {
+          this.setState({ empEmail: "", name: "" });
+          alert("User Added Successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Try Again");
+    }
   };
 
   render() {

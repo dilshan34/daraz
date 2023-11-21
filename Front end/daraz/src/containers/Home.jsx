@@ -21,7 +21,7 @@ class Home extends Component {
       products: [],
       selectedProduct: null,
       redeemPoints: "",
-      totalPoints:0
+      totalPoints: 0,
     };
   }
 
@@ -29,10 +29,10 @@ class Home extends Component {
     this.getUser();
   }
 
-  componentDidUpdate(prevProps,prevState){
-    if(prevState.user !== this.state.user){
-        console.log("componentDidUpdate")
-        this.setState({totalPoints:this.state.user[0].loyaltyPoints})
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.user !== this.state.user) {
+      console.log("componentDidUpdate");
+      this.setState({ totalPoints: this.state.user[0].loyaltyPoints });
     }
   }
 
@@ -43,7 +43,10 @@ class Home extends Component {
         .then((response) => {
           if (response.data.length !== 0) {
             this.getProducts();
-            this.setState({ user: response.data,totalPoints:response.data[0].loyaltyPoints });
+            this.setState({
+              user: response.data,
+              totalPoints: response.data[0].loyaltyPoints,
+            });
           } else {
             alert("User not found");
             console.log("User not found");
@@ -89,18 +92,22 @@ class Home extends Component {
       customerId: this.state.user[0].customerId,
       loyaltyPoints: parseInt(this.state.redeemPoints),
     };
-    redeemPoints(value)
-      .then((response) => {
-        console.log(response.status);
+    if (this.state.redeemPoints.trim() !== "") {
+      redeemPoints(value)
+        .then((response) => {
+          console.log(response.status);
 
-        this.setState({ redeemPoints: "" });
-        alert("Points Redeem Successfully !!");
-        this.getUser();
-      })
-      .catch((error) => {
-        alert("Points not enough to Redeem !!");
-        console.log(error);
-      });
+          this.setState({ redeemPoints: "" });
+          alert("Points Redeem Successfully !!");
+          this.getUser();
+        })
+        .catch((error) => {
+          alert("Points not enough to Redeem !!");
+          console.log(error);
+        });
+    }else{
+      alert("Try again")
+    }
   };
 
   render() {
